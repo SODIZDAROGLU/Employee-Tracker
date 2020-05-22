@@ -1,4 +1,5 @@
 
+
 const mysql = require("mysql");
 const inquirer = require("inquirer");
 const cTable = require("console.table");
@@ -7,7 +8,7 @@ const connection = mysql.createConnection({
   host: "localhost",
   port: 3306,
   user: "root",
-  password: " ",
+  password: "a12345678",
   database: "employee_DB"
 });
 
@@ -216,7 +217,7 @@ function addEmploy() {
     {
       name: "manager",
       type: "input",
-      message: "Who is the employee's manager? (Press ENTER if DNA)"
+      message: "Who is the employee's manager?"
     },
   ])
   .then(function(answer) {
@@ -337,7 +338,7 @@ function delDept() {
   connection.query("SELECT * FROM department;", function(err, res) {
     if (err) throw err;
     console.table(res);
-    // });
+   
     inquirer.prompt([
       {
         name: "deptID",
@@ -362,7 +363,7 @@ function delRole() {
   connection.query("SELECT * FROM role;", function(err, res) {
     if (err) throw err;
     console.table(res);
-    // });
+  
     inquirer.prompt([
       {
         name: "roleID",
@@ -387,7 +388,7 @@ function delEmploy() {
   connection.query("SELECT * FROM employee;", function(err, res) {
     if (err) throw err;
     console.table(res);
-    // });
+
     inquirer.prompt([
       {
         name: "empID",
