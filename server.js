@@ -15,21 +15,21 @@ const connection = mysql.createConnection({
 connection.connect(function(err) {
   if (err) throw err;
   console.log(connection.threadId);
-  start();
+  search();
 });
 
 function validateEntry(name){
   return name !== '';
 };
 
-async function start() {
+async function search() {
     try {
       const questions = await inquirer.prompt([
         {
           type: "list",
           message: "What would you like to do? ",
-          name: "startWhat",
-          choices: [
+          name: "action",
+          choices: [ 
               "View All Departments",
               "View All Roles",
               "View All Employees",
@@ -45,7 +45,7 @@ async function start() {
           ]
         }])
         .then(function(answer) {
-            switch (answer.startWhat) {
+            switch (answer.action) {
             case "View All Departments":
               allDepartments();
               break;
@@ -105,7 +105,7 @@ async function start() {
     connection.query("SELECT * FROM department;", function(err, res) {
           if (err) throw err;
           console.table(res);
-          start();
+         search();
           });
   };
 
@@ -113,7 +113,7 @@ async function start() {
     connection.query("SELECT * FROM role;", function(err, res) {
       if (err) throw err;
       console.table(res);
-      start();
+      search();
       })
 };
 
@@ -121,7 +121,7 @@ function allEmployees() {
   connection.query("SELECT * FROM employee;", function(err, res) {
     if (err) throw err;
     console.table(res);
-    start();
+    search();
     })
 };
 
@@ -140,7 +140,7 @@ function addDept() {
       "INSERT INTO department SET ?", {"name": answer.deptName}, function(err) {
         if (err) throw err;
         console.log("Department added successfully!");
-        start();
+        search();
       }
     );
   });
@@ -190,7 +190,7 @@ function addRole() {
       function(err) {
         if (err) throw err;
         console.log("Role added successfully!");
-        start();
+        search();
       }
     );
   });
@@ -222,7 +222,7 @@ function addEmploy() {
   ])
   .then(function(answer) {
     answer.role = answer.role.toLowerCase();
-    if (answer.role === "sales lead") {
+            if (answer.role === "sales lead") {
       answer.role = 1;
     } else if (answer.role === "salesperson") {
       answer.role = 2;
@@ -239,7 +239,7 @@ function addEmploy() {
     };
 
     answer.manager = answer.manager.toLowerCase();
-    if (answer.manager  === "john smith") {
+            if (answer.manager  === "john smith") {
       answer.manager = 1;
     } else if (answer.manager === "tom hanks") {
       answer.manager = 2;
@@ -266,7 +266,7 @@ function addEmploy() {
       function(err) {
         if (err) throw err;
         console.log("Employee added successfully!");
-        start();
+        search();
       }
     );
   });
@@ -327,7 +327,7 @@ function updateRole() {
       function(err) {
         if (err) throw err;
         console.log("Employee role updated successfully!");
-        start();
+        search();
       }
     );
   });
@@ -352,7 +352,7 @@ function delDept() {
         function(err) {
           if (err) throw err;
           console.log("Department deleted successfully!");
-          start();
+          search();
         }
       );
     });
@@ -377,7 +377,7 @@ function delRole() {
         function(err) {
           if (err) throw err;
           console.log("Role deleted successfully!");
-          start();
+          search();
         }
       );
     });
@@ -402,7 +402,7 @@ function delEmploy() {
         function(err) {
           if (err) throw err;
           console.log("Employee deleted successfully!");
-          start();
+         search();
         }
       );
     });
